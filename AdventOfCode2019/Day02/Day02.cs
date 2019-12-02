@@ -30,22 +30,15 @@ namespace AdventOfCode2019.Day02
             {
                 int opcode = ints[pos];
 
-                if (opcode == 99)
-                {
-                    break;
-                }
-
-                int pos1 = pos + 1;
-                int pos2 = pos + 2;
-                int pos3 = pos + 3;
+                if (opcode == 99) break;
 
                 if (opcode == 1)
                 {
-                    ints[ints[pos3]] = ints[ints[pos1]] + ints[ints[pos2]];
+                    ints[ints[pos + 3]] = ints[ints[pos + 1]] + ints[ints[pos + 2]];
                 }
                 else if (opcode == 2)
                 {
-                    ints[ints[pos3]] = ints[ints[pos1]] * ints[ints[pos2]];
+                    ints[ints[pos + 3]] = ints[ints[pos + 1]] * ints[ints[pos + 2]];
                 }
 
                 pos += 4;
@@ -58,7 +51,6 @@ namespace AdventOfCode2019.Day02
         {
             int[] ints;
             int[] intsBackup;
-            bool found = false;
 
             using (StreamReader reader = new StreamReader(inputPath))
             {
@@ -83,32 +75,22 @@ namespace AdventOfCode2019.Day02
                     {
                         int opcode = ints[pos];
 
-                        if (opcode == 99)
-                        {
-                            break;
-                        }
-
-                        int pos1 = pos + 1;
-                        int pos2 = pos + 2;
-                        int pos3 = pos + 3;
+                        if (opcode == 99) break;
 
                         if (opcode == 1)
                         {
-                            ints[ints[pos3]] = ints[ints[pos1]] + ints[ints[pos2]];
+                            ints[ints[pos + 3]] = ints[ints[pos + 1]] + ints[ints[pos + 2]];
                         }
                         else if (opcode == 2)
                         {
-                            ints[ints[pos3]] = ints[ints[pos1]] * ints[ints[pos2]];
+                            ints[ints[pos + 3]] = ints[ints[pos + 1]] * ints[ints[pos + 2]];
                         }
-                        else
-                        {
-                            break;
-                        }
+                        else break;
 
                         pos += 4;
                     }
 
-                    if (ints[0] == 19690720)
+                    if (ints[0] == output)
                     {
                         Console.WriteLine(100 * noun + verb);
                         return;
