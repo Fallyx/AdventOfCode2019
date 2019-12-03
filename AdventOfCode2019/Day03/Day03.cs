@@ -42,134 +42,53 @@ namespace AdventOfCode2019.Day03
             Console.WriteLine(shortestSteps);
         }
 
-
-        private static Point CableCoord (Dictionary<Point, (bool first, int stepsF, bool second, int stepsS)> coord, Point xy, string move, bool firstCable)
+        private static Point CableCoord(Dictionary<Point, (bool first, int stepsF, bool second, int stepsS)> coord, Point xy, string move, bool firstCable)
         {
             int moveInt = int.Parse(move.Substring(1));
+            char direction = move[0];
 
-            if (move[0] == 'U')
+            for (int i = 1; i <= moveInt; i++)
             {
-                for (int i = 1; i <= moveInt; i++)
+                step++;
+
+                if (direction == 'U')
                 {
-                    step++;
+                    xy = new Point(xy.X, xy.Y + 1);
+                }
+                else if (direction == 'D')
+                {
+                    xy = new Point(xy.X, xy.Y - 1);
+                }
+                else if (direction == 'L')
+                {
+                    xy = new Point(xy.X - 1, xy.Y);
+                }
+                else if (direction == 'R')
+                {
+                    xy = new Point(xy.X + 1, xy.Y);
+                }
 
-                    Point p = new Point(xy.X, xy.Y + i);
-                    if (!coord.ContainsKey(p)) coord.Add(p, (false, 0, false, 0));
+                if (!coord.ContainsKey(xy)) coord.Add(xy, (false, 0, false, 0));
 
-                    if (firstCable)
+                if (firstCable)
+                {
+                    coord[xy] = (true, step, coord[xy].second, coord[xy].stepsS);
+                }
+                else
+                {
+                    coord[xy] = (coord[xy].first, coord[xy].stepsF, true, step);
+
+                    if (coord[xy].first && coord[xy].second)
                     {
-                        coord[p] = (true, step, coord[p].second, coord[p].stepsS);
-                    }
-                    else
-                    {
-                        coord[p] = (coord[p].first, coord[p].stepsF, true, step);
+                        shortestDistance = Math.Min(shortestDistance, Math.Abs(xy.X) + Math.Abs(xy.Y));
 
-                        if (coord[p].first  && coord[p].second)
+                        if (coord[xy].stepsF != 0)
                         {
-                            shortestDistance = Math.Min(shortestDistance, Math.Abs(p.X) + Math.Abs(p.Y));
-
-                            if (coord[p].stepsF != 0)
-                            {
-                                shortestSteps = Math.Min(shortestSteps, coord[p].stepsF + coord[p].stepsS);
-                            }
+                            shortestSteps = Math.Min(shortestSteps, coord[xy].stepsF + coord[xy].stepsS);
                         }
                     }
                 }
-
-                xy = new Point(xy.X, xy.Y + moveInt);
-            }
-            else if (move[0] == 'D')
-            {
-                for (int i = 1; i <= moveInt; i++)
-                {
-                    step++;
-
-                    Point p = new Point(xy.X, xy.Y - i);
-                    if (!coord.ContainsKey(p)) coord.Add(p, (false, 0, false, 0));
-
-                    if (firstCable)
-                    {
-                        coord[p] = (true, step, coord[p].second, coord[p].stepsS);
-                    }
-                    else
-                    {
-                        coord[p] = (coord[p].first, coord[p].stepsF, true, step);
-
-                        if (coord[p].first && coord[p].second)
-                        {
-                            shortestDistance = Math.Min(shortestDistance, Math.Abs(p.X) + Math.Abs(p.Y));
-
-                            if (coord[p].stepsF != 0)
-                            {
-                                shortestSteps = Math.Min(shortestSteps, coord[p].stepsF + coord[p].stepsS);
-                            }
-                        }
-                    }
-                }
-
-                xy = new Point(xy.X, xy.Y - moveInt);
-            }
-            else if (move[0] == 'L')
-            {
-                for (int i = 1; i <= moveInt; i++)
-                {
-                    step++;
-
-                    Point p = new Point(xy.X - i, xy.Y);
-                    if (!coord.ContainsKey(p)) coord.Add(p, (false, 0, false, 0));
-
-                    if (firstCable)
-                    {
-                        coord[p] = (true, step, coord[p].second, coord[p].stepsS);
-                    }
-                    else
-                    {
-                        coord[p] = (coord[p].first, coord[p].stepsF, true, step);
-
-                        if (coord[p].first && coord[p].second)
-                        {
-                            shortestDistance = Math.Min(shortestDistance, Math.Abs(p.X) + Math.Abs(p.Y));
-
-                            if (coord[p].stepsF != 0)
-                            {
-                                shortestSteps = Math.Min(shortestSteps, coord[p].stepsF + coord[p].stepsS);
-                            }
-                        }
-                    }
-                }
-
-                xy = new Point(xy.X - moveInt, xy.Y);
-            }
-            else if (move[0] == 'R')
-            {
-                for (int i = 1; i <= moveInt; i++)
-                {
-                    step++;
-
-                    Point p = new Point(xy.X + i, xy.Y);
-                    if (!coord.ContainsKey(p)) coord.Add(p, (false, 0, false, 0));
-
-                    if (firstCable)
-                    {
-                        coord[p] = (true, step, coord[p].second, coord[p].stepsS);
-                    }
-                    else
-                    {
-                        coord[p] = (coord[p].first, coord[p].stepsF, true, step);
-
-                        if (coord[p].first && coord[p].second)
-                        {
-                            shortestDistance = Math.Min(shortestDistance, Math.Abs(p.X) + Math.Abs(p.Y));
-
-                            if (coord[p].stepsF != 0)
-                            {
-                                shortestSteps = Math.Min(shortestSteps, coord[p].stepsF + coord[p].stepsS);
-                            }
-                        }
-                    }
-                }
-
-                xy = new Point(xy.X + moveInt, xy.Y);
+                    
             }
 
             return xy;
