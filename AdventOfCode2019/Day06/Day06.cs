@@ -34,13 +34,9 @@ namespace AdventOfCode2019.Day06
                 while (true)
                 {
                     links++;
-
                     currOrbiter = parent;
 
-                    if (currOrbiter == "COM")
-                    {
-                        break;
-                    }
+                    if (currOrbiter == "COM") break;
 
                     parent = orbiterLink[currOrbiter];
                 }
@@ -53,9 +49,8 @@ namespace AdventOfCode2019.Day06
         {
             string line;
             // key = orbiter, value = parent
-            Dictionary<string, string> orbiterLink = new Dictionary<string, string>();
-            Dictionary<string, int> orbitLinksYou = new Dictionary<string, int>();
-            Dictionary<string, int> orbitLinksSan = new Dictionary<string, int>();
+            Dictionary<string, string> orbiters = new Dictionary<string, string>();
+            Dictionary<string, int> orbiterLinks = new Dictionary<string, int>();
 
             using (StreamReader reader = new StreamReader(inputPath))
             {
@@ -63,53 +58,39 @@ namespace AdventOfCode2019.Day06
                 {
                     string[] obj = line.Split(')');
 
-                    orbiterLink.Add(obj[1], obj[0]);
+                    orbiters.Add(obj[1], obj[0]);
                 }
             }
 
-            string currOriterYou = "YOU";
-            string parentYou = orbiterLink[currOriterYou];
-            int linksYou = 0;
+            string currOrbiter = "SAN";
+            string parent = orbiters[currOrbiter];
+            int links = 0;
 
-            string currOrbiterSan = "SAN";
-            string parentSan = orbiterLink[currOrbiterSan];
-            int linksSan = 0;
+            while(parent != "COM")
+            {
+                if (orbiterLinks.ContainsKey(parent)) continue;
+                
+                orbiterLinks.Add(parent, links);
+                currOrbiter = parent;
+                parent = orbiters[currOrbiter];
+                links++;
+            }
+
+            currOrbiter = "YOU";
+            parent = orbiters[currOrbiter];
+            links = 0;
 
             while (true)
             {
-                if (orbitLinksSan.ContainsKey(parentYou))
+                if (orbiterLinks.ContainsKey(parent))
                 {
-                    Console.WriteLine(linksYou + orbitLinksSan[parentYou]); 
+                    Console.WriteLine(links + orbiterLinks[parent]);
                     break;
                 }
-                else if (!orbitLinksYou.ContainsKey(parentYou))
-                {
-                    orbitLinksYou.Add(parentYou, linksYou);
 
-                    currOriterYou = parentYou;
-                    if (currOriterYou != "COM")
-                    {
-                        parentYou = orbiterLink[currOriterYou];
-                        linksYou++;
-                    }
-                }
-
-                if (orbitLinksYou.ContainsKey(parentSan))
-                {
-                    Console.WriteLine(linksSan + orbitLinksYou[parentSan]);
-                    break;
-                }
-                else if (!orbitLinksSan.ContainsKey(parentSan))
-                {
-                    orbitLinksSan.Add(parentSan, linksSan);
-
-                    currOrbiterSan = parentSan;
-                    if (currOrbiterSan != "COM")
-                    {
-                        parentSan = orbiterLink[currOrbiterSan];
-                        linksSan++;
-                    }
-                }
+                currOrbiter = parent;
+                parent = orbiters[currOrbiter];
+                links++;
             }
         }
     }
