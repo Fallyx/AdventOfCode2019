@@ -71,37 +71,27 @@ namespace AdventOfCode2019.Day08
 
         private static void PrintCode(List<string[]> layers)
         {
-            char[,] lay = new char[imgHeight, imgWidth];
-
-            for (int x = 0; x < imgHeight; x++)
+            for (int x = 0; x < layers[0].Length; x++)
             {
-                for (int y = 0; y < imgWidth; y++)
+                for (int y = 0; y < layers[0][0].Length; y++)
                 {
-                    lay[x, y] = '2';
-                }
-            }
-
-            foreach (var layer in layers)
-            {
-                for (int x = 0; x < layer.Length; x++)
-                {
-                    for (int y = 0; y < layer[x].Length; y++)
+                    foreach (var layer in layers)
                     {
-                        if (lay[x, y] == '2' && (layer[x][y] == '0' || layer[x][y] == '1'))
+                        if (layer[x][y] == '2') continue;
+
+                        if (layer[x][y] == '0')
                         {
-                            lay[x, y] = layer[x][y];
+                            Console.Write(' ');
+                            break;
+                        }
+                        else
+                        {
+                            Console.Write(layer[x][y]);
+                            break;
                         }
                     }
                 }
-            }
 
-            for (int x = 0; x < imgHeight; x++)
-            {
-                for (int y = 0; y < imgWidth; y++)
-                {
-                    if (lay[x, y] == '0') Console.Write(' ');
-                    else Console.Write(lay[x, y]);
-                }
                 Console.WriteLine();
             }
         }
