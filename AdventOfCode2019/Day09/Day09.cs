@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
 using System.Linq;
 
@@ -79,22 +78,14 @@ namespace AdventOfCode2019.Day09
 
                 if (opcode == 3)
                 {
-                    long saveLoc3;
-
                     if (!memory.ContainsKey(pos + 1)) memory.Add(pos + 1, 0);
 
-                    if (param1 == 0)
-                    {
-                        saveLoc3 = memory[pos + 1];
-                    }
+                    if (param1 == 0) memory[memory[pos + 1]] = input; 
                     else
                     {
                         if (!memory.ContainsKey(relativeBase + memory[pos + 1])) memory.Add(relativeBase + memory[pos + 1], 0);
-                        saveLoc3 = relativeBase + memory[pos + 1];
+                        memory[relativeBase + memory[pos + 1]] = input;
                     }
-
-                    memory[saveLoc3] = input;
-
                     pos += 2;
 
                     continue;
@@ -102,7 +93,6 @@ namespace AdventOfCode2019.Day09
                 else if (opcode == 4)
                 {
                     Console.WriteLine(val1);
-
                     pos += 2;
 
                     continue;
@@ -110,7 +100,6 @@ namespace AdventOfCode2019.Day09
                 else if (opcode == 9)
                 {
                     relativeBase += val1;
-
                     pos += 2;
 
                     continue;
@@ -120,10 +109,7 @@ namespace AdventOfCode2019.Day09
 
                 if (!memory.ContainsKey(memory[pos + 2])) memory.Add(memory[pos + 2], 0);
 
-                if (param2 == 0)
-                {
-                    val2 = memory[memory[pos + 2]];
-                }
+                if (param2 == 0) val2 = memory[memory[pos + 2]];
                 else if (param2 == 1)
                 {
                     if (!memory.ContainsKey(pos + 2)) memory.Add(pos + 2, 0);
@@ -154,10 +140,7 @@ namespace AdventOfCode2019.Day09
 
                 if (!memory.ContainsKey(pos + 3)) memory.Add(pos + 3, 0);
 
-                if (param3 == 0)
-                {
-                    saveLoc = memory[pos + 3];
-                }
+                if (param3 == 0) saveLoc = memory[pos + 3];
                 else
                 {
                     if (!memory.ContainsKey(relativeBase + memory[pos + 3])) memory.Add(relativeBase + memory[pos + 3], 0);
