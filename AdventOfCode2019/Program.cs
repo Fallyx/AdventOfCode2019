@@ -73,6 +73,14 @@ namespace AdventOfCode2019
             Console.WriteLine($"Day 08 elapsed time: {swDay.Elapsed}\n");
             #endregion
 
+            #region day 9
+            swDay.Restart();
+            Day09.Day09.Task1();
+            Day09.Day09.Task2();
+            swDay.Stop();
+            Console.WriteLine($"Day 09 elapsed time: {swDay.Elapsed}\n");
+            #endregion
+
             swTot.Stop();
 
             Console.WriteLine($"\nTotal elapsed time: {swTot.Elapsed}");
