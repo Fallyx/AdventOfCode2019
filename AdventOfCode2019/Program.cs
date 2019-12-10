@@ -7,7 +7,12 @@ namespace AdventOfCode2019
     {
         static void Main(string[] args)
         {
+            FullRun();
+            // SingleRun();
+        }
 
+        private static void FullRun()
+        {
             Stopwatch swTot = new Stopwatch();
             Stopwatch swDay = new Stopwatch();
 
@@ -81,9 +86,21 @@ namespace AdventOfCode2019
             Console.WriteLine($"Day 09 elapsed time: {swDay.Elapsed}\n");
             #endregion
 
+            #region day 10
+            swDay.Restart();
+            Day10.Day10.Task1and2();
+            swDay.Stop();
+            Console.WriteLine($"Day 10 elapsed time: {swDay.Elapsed}\n");
+            #endregion
+
             swTot.Stop();
 
             Console.WriteLine($"\nTotal elapsed time: {swTot.Elapsed}");
+        }
+
+        private static void SingleRun()
+        {
+            Day10.Day10.Task1and2();
         }
     }
 }
