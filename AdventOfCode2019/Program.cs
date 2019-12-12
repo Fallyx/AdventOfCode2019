@@ -101,6 +101,14 @@ namespace AdventOfCode2019
             Console.WriteLine($"Day 11 elapsed time: {swDay.Elapsed}\n");
             #endregion
 
+            #region day 12
+            swDay.Restart();
+            Day12.Day12.Task1();
+            Day12.Day12.Task2();
+            swDay.Stop();
+            Console.WriteLine($"Day 12 elapsed time: {swDay.Elapsed}\n");
+            #endregion
+
             swTot.Stop();
 
             Console.WriteLine($"\nTotal elapsed time: {swTot.Elapsed}");
@@ -108,7 +116,7 @@ namespace AdventOfCode2019
 
         private static void SingleRun()
         {
-            Day11.Day11.Task2();
+            Day12.Day12.Task2();
         }
     }
 }
