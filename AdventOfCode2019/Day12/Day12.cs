@@ -10,23 +10,14 @@ namespace AdventOfCode2019.Day12
     {
         public static void Task1()
         {
-            (Vector3 moonPos, Vector3 moonVel) =  (new Vector3(0, 0, 0), new Vector3(0, 0, 0));
             int steps = 1000;
 
             List<(Vector3 moonPos, Vector3 moonVel)> moons = new List<(Vector3 moonPos, Vector3 moonVel)>
             {
-                
                 { (new Vector3(-4, -14, 8), new Vector3(0)) },
                 { (new Vector3(1, -8, 10), new Vector3(0)) },
                 { (new Vector3(-15, 2, 1), new Vector3(0)) },
                 { (new Vector3(-17, -17, 16), new Vector3(0)) }
-                
-                /*
-                { (new Vector3(-1, 0, 2), new Vector3(0)) },
-                { (new Vector3(2, -10, -7), new Vector3(0)) },
-                { (new Vector3(4, -8, 8), new Vector3(0)) },
-                { (new Vector3(3, 5, -1), new Vector3(0)) }
-                */
             };
 
             Vector3[] newVels = new Vector3[moons.Count];
@@ -47,7 +38,6 @@ namespace AdventOfCode2019.Day12
                         z += (moons[first].moonPos.Z > moons[second].moonPos.Z) ? -1 : (moons[first].moonPos.Z < moons[second].moonPos.Z) ? 1 : 0;
                     }
 
-                    
                     Vector3 xyz = new Vector3(x, y, z);
                     newVels[first] = xyz;
                 }
@@ -63,9 +53,9 @@ namespace AdventOfCode2019.Day12
 
             int totEnergy = 0;
 
-            foreach(var moon in moons)
+            foreach(var (moonPos, moonVel) in moons)
             {
-                totEnergy += (int)((Math.Abs(moon.moonPos.X) + Math.Abs(moon.moonPos.Y) + Math.Abs(moon.moonPos.Z)) * (Math.Abs(moon.moonVel.X) + Math.Abs(moon.moonVel.Y) + Math.Abs(moon.moonVel.Z)));
+                totEnergy += (int)((Math.Abs(moonPos.X) + Math.Abs(moonPos.Y) + Math.Abs(moonPos.Z)) * (Math.Abs(moonVel.X) + Math.Abs(moonVel.Y) + Math.Abs(moonVel.Z)));
             }
 
             Console.WriteLine(totEnergy);
@@ -73,50 +63,20 @@ namespace AdventOfCode2019.Day12
 
         public static void Task2()
         {
-            (Vector3 moonPos, Vector3 moonVel) = (new Vector3(0, 0, 0), new Vector3(0, 0, 0));
-
             List<(Vector3 moonPos, Vector3 moonVel)> moons = new List<(Vector3 moonPos, Vector3 moonVel)>
             {
-                
                 { (new Vector3(-4, -14, 8), new Vector3(0)) },
                 { (new Vector3(1, -8, 10), new Vector3(0)) },
                 { (new Vector3(-15, 2, 1), new Vector3(0)) },
                 { (new Vector3(-17, -17, 16), new Vector3(0)) }
-                
-                /*
-                { (new Vector3(-1, 0, 2), new Vector3(0)) },
-                { (new Vector3(2, -10, -7), new Vector3(0)) },
-                { (new Vector3(4, -8, 8), new Vector3(0)) },
-                { (new Vector3(3, 5, -1), new Vector3(0)) }
-                */
-                /*
-                { (new Vector3(-8, -10, 0), new Vector3(0)) },
-                { (new Vector3(5, 5, 10), new Vector3(0)) },
-                { (new Vector3(2, -7, 3), new Vector3(0)) },
-                { (new Vector3(9, -8, -3), new Vector3(0)) }
-                */
             };
 
             List<(Vector3 moonPos, Vector3 moonSteps, bool cycleFound)> moonStart = new List<(Vector3 moonPos, Vector3 moonSteps, bool cycleFound)>
             {
-                
                 { (new Vector3(-4, -14, 8), new Vector3(0), false) },
                 { (new Vector3(1, -8, 10), new Vector3(0), false) },
                 { (new Vector3(-15, 2, 1), new Vector3(0), false) },
                 { (new Vector3(-17, -17, 16), new Vector3(0), false) }
-                
-                /*
-                { (new Vector3(-1, 0, 2), new Vector3(0), false) },
-                { (new Vector3(2, -10, -7), new Vector3(0), false) },
-                { (new Vector3(4, -8, 8), new Vector3(0), false) },
-                { (new Vector3(3, 5, -1), new Vector3(0), false) }
-                */
-                /*
-                { (new Vector3(-8, -10, 0), new Vector3(0), false) },
-                { (new Vector3(5, 5, 10), new Vector3(0), false) },
-                { (new Vector3(2, -7, 3), new Vector3(0), false) },
-                { (new Vector3(9, -8, -3), new Vector3(0), false) }
-                */
             };
 
             List<List<Vector3>> history = new List<List<Vector3>>
@@ -144,6 +104,7 @@ namespace AdventOfCode2019.Day12
                     int x = 0;
                     int y = 0;
                     int z = 0;
+
                     for (int second = 0; second < moons.Count; second++)
                     {
                         if (first == second) continue;
@@ -152,7 +113,6 @@ namespace AdventOfCode2019.Day12
                         y += (moons[first].moonPos.Y > moons[second].moonPos.Y) ? -1 : (moons[first].moonPos.Y < moons[second].moonPos.Y) ? 1 : 0;
                         z += (moons[first].moonPos.Z > moons[second].moonPos.Z) ? -1 : (moons[first].moonPos.Z < moons[second].moonPos.Z) ? 1 : 0;
                     }
-
 
                     Vector3 xyz = new Vector3(x, y, z);
                     newVels[first] = xyz;
@@ -219,7 +179,6 @@ namespace AdventOfCode2019.Day12
             {
                 kgV += max;
             }
-
 
             return kgV;
         }
