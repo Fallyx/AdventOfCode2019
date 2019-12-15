@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
 using System.Linq;
 using System.Drawing;
@@ -83,24 +82,7 @@ namespace AdventOfCode2019.Day13
                     break;
                 }
 
-                long val1;
-
-                if (!memory.ContainsKey(memory[pos + 1])) memory.Add(memory[pos + 1], 0);
-
-                if (param1 == 0)
-                {
-                    val1 = memory[memory[pos + 1]];
-                }
-                else if (param1 == 1)
-                {
-                    if (!memory.ContainsKey(pos + 1)) memory.Add(pos + 1, 0);
-                    val1 = memory[pos + 1];
-                }
-                else
-                {
-                    if (!memory.ContainsKey(relativeBase + memory[pos + 1])) memory.Add(relativeBase + memory[pos + 1], 0);
-                    val1 = memory[relativeBase + memory[pos + 1]];
-                }
+                long val1 = GetValue(param1, memory, pos + 1, relativeBase);                
 
                 if (opcode == 3)
                 {
@@ -155,21 +137,7 @@ namespace AdventOfCode2019.Day13
                     continue;
                 }
 
-                long val2;
-
-                if (!memory.ContainsKey(memory[pos + 2])) memory.Add(memory[pos + 2], 0);
-
-                if (param2 == 0) val2 = memory[memory[pos + 2]];
-                else if (param2 == 1)
-                {
-                    if (!memory.ContainsKey(pos + 2)) memory.Add(pos + 2, 0);
-                    val2 = memory[pos + 2];
-                }
-                else
-                {
-                    if (!memory.ContainsKey(relativeBase + memory[pos + 2])) memory.Add(relativeBase + memory[pos + 2], 0);
-                    val2 = memory[relativeBase + memory[pos + 2]];
-                }
+                long val2 = GetValue(param2, memory, pos + 2, relativeBase);
 
                 if (opcode == 5)
                 {
@@ -186,16 +154,7 @@ namespace AdventOfCode2019.Day13
                     continue;
                 }
 
-                long saveLoc;
-
-                if (!memory.ContainsKey(pos + 3)) memory.Add(pos + 3, 0);
-
-                if (param3 == 0) saveLoc = memory[pos + 3];
-                else
-                {
-                    if (!memory.ContainsKey(relativeBase + memory[pos + 3])) memory.Add(relativeBase + memory[pos + 3], 0);
-                    saveLoc = relativeBase + memory[pos + 3];
-                }
+                long saveLoc = SaveLocation(param3, memory, pos + 3, relativeBase);                
 
                 if (opcode == 1)
                 {
@@ -224,6 +183,42 @@ namespace AdventOfCode2019.Day13
                     pos += 4;
                 }
             }
+        }
+
+        private static long GetValue(long param, Dictionary<long, long> memory, long pos, long relativeBase)
+        {
+            long val;
+            if (!memory.ContainsKey(memory[pos])) memory.Add(memory[pos], 0);
+
+            if (param == 0) val = memory[memory[pos]];
+            else if (param == 1)
+            {
+                if (!memory.ContainsKey(pos)) memory.Add(pos, 0);
+                val = memory[pos];
+            }
+            else
+            {
+                if (!memory.ContainsKey(relativeBase + memory[pos])) memory.Add(relativeBase + memory[pos], 0);
+                val = memory[relativeBase + memory[pos]];
+            }
+
+            return val;
+        }
+
+        private static long SaveLocation(long param, Dictionary<long, long> memory, long pos, long relativeBase)
+        {
+            long saveLoc;
+
+            if (!memory.ContainsKey(pos)) memory.Add(pos, 0);
+
+            if (param == 0) saveLoc = memory[pos];
+            else
+            {
+                if (!memory.ContainsKey(relativeBase + memory[pos])) memory.Add(relativeBase + memory[pos], 0);
+                saveLoc = relativeBase + memory[pos];
+            }
+
+            return saveLoc;
         }
     }
 }
